@@ -1,0 +1,170 @@
+% General Paper Template created by Adam Green
+% Last revised 3/2/18
+
+\documentclass[12pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Standard Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage[margin = 2cm]{geometry}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphical Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{wrapfig}
+% Syntax: \begin{wrapfig}[lineheight]{position}{width}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows}
+%\usepackage{pgfplots}
+
+\graphicspath{{Figures/}} % set directory for figures
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+
+\definecolor{myblue1}{RGB}{76, 142, 185}
+\definecolor{myblue2}{RGB}{25, 100, 126}
+\definecolor{myblue3}{RGB}{41, 110, 180}
+
+\definecolor{mygreen1}{RGB}{88,165,87}
+\definecolor{mygreen2}{RGB}{91,165,98}
+
+\definecolor{myred1}{RGB}{221, 28, 26}
+\definecolor{mypurple}{RGB}{122,48,108}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table and Array Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tabu}
+\usepackage{booktabs}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Citation Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\hypersetup{allcolors = myblue1,
+	allbordercolors = myblue1, 
+	filecolor = myblue1, 
+	linkbordercolor = myblue1,
+	urlbordercolor = white
+}
+
+\usepackage{cleveref}
+\crefname{equation}{Eqn.}{Eqns.}
+\crefname{figure}{Fig.}{Figs.}
+\crefname{table}{Tab.}{Tabs.}
+
+%\usepackage{caption}
+%	\captionsetup{format = , justification= }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Text Formatting packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{multicol}
+\usepackage{parskip} 
+\usepackage{indentfirst} 
+\setlength{\parindent}{0.75cm}
+\usepackage{fancyhdr}
+%	\pagestyle{fancy}
+\usepackage{enumerate}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{xhfill}
+\usepackage{comment}
+\usepackage{verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Red marks to get attention
+\newcommand{\red}[1]{\textbf{\textcolor{myred1}{#1}}} % Red Text
+\newcommand{\redmark}{\textcolor{myred1}{\rule{4mm}{4mm} }} % Red Dash
+\newcommand{\redline}{\noindent\xhrulefill{myred1}{3pt}} % Red Rule
+
+
+% Lowercase Captial Letters
+\newcommand{\scap}[1]{\textsc{\MakeLowercase{#1}}} % Makes caps small so it doesnt SHOUT
+
+
+% Math Commands: first and second order partials, Laplacian
+\newcommand{\evaluate}{\Bigr\rvert}
+\newcommand{\ppd}[1]{\frac{\partial}{\partial#1}}
+\newcommand{\ppsd}[1]{\frac{\partial^2}{\partial #1^2}}
+\newcommand{\ppnd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\ppsnd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\lap}{\nabla^2}
+
+% Quantum bra- ket- commands
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\bracket}[2]{\langle #1 | #2 \rangle}
+
+% Redfine equation and figure references to include "Eqn. ()" and "Fig. _"
+\newcommand{\figref}[1]{Fig.\ \ref{#1}}
+%\let\originaleqref=\eqref
+\renewcommand{\eqref}{Eqn.\ \originaleqref}
+
+
+% Custom Matrix Spacing
+% Syntax: \begin{matrix}[scale]
+\makeatletter
+\renewcommand*\env@matrix[1][\arraystretch]{%
+	\edef\arraystretch{#1}%
+	\hskip -\arraycolsep
+	\let\@ifnextchar\new@ifnextchar
+	\array{*\c@MaxMatrixCols c}}
+\makeatother
+
+
+% Email Commands: Taken from Flip
+% Syntax: \email{email}
+\newcommand{\email}[1]{\href{mailto:#1}{\textcolor{mygreen1}{#1}}}
+
+% Institution Environment: Taken From Flip
+\newenvironment{institutions}[1][2em]{\begin{list}{}{\setlength\leftmargin{#1}\setlength\rightmargin{#1}}\item[]}{\end{list}}
+
+% Link to External Webpage
+% Syntax: \link{url}
+\newcommand{\link}[1]{\href{#1}{\textcolor{mygreen1}{\texttt{#1}}}}
+
+
+
+\begin{document}
+The general iterator for Simpson's rule is:	
+$$ I(a,b,N) = \sum_i^N \frac{\Delta x}{3} \left[  f(x_i) + 4f(x_i+\Delta x) + f(x_i+2\Delta x) \right] $$
+where, after each step, we increment by $2\Delta x$. This is because if we incremented by only $\Delta x$, we would be over-sampling our function, or in other words, our ``rectangles'' would overlap each other.
+
+To make this look like Newman's form, we fix the integration between $x\in [a,b]$ and, for illustrative purposes, choose $N=4$ steps, $b$ is then fixed to be $b=a+8\Delta x$ since we are incrementing by $2\Delta x$.
+
+Explicitly writing out the summation yields:
+$$ I(a,b,4) = I_1(a,b,4) + I_2(a,b,4) + I_3(a,b,4) + I_4 (a,b,4) $$ where each $I_i$ is the $i\text{th}$ term in the summation. Writing out each $I_i$ yields:
+$$I_1= \frac{\Delta x}{3} \left[  f(a) + 4f(a+\Delta x) + f(a+2\Delta x) \right]$$
+
+$$I_2= \frac{\Delta x}{3} \left[  f(a+2\Delta x) + 4f(a+3\Delta x) + f(a+4\Delta x) \right] $$
+
+$$I_3= \frac{\Delta x}{3} \left[  f(a+4\Delta x) + 4f(a+5\Delta x) + f(a+6\Delta x) \right] $$
+
+$$I_4= \frac{\Delta x}{3} \left[  f(a+6\Delta x) + 4f(a+7\Delta x) + f(b) \right] $$
+where in the last summation, $a+8\Delta x = b$ by definition. The middle term in each $I_i$ contains an odd prefactor attached to $\Delta x$ which stops at $7 = N-1$. The first term in the $I_4$ summation has $6=N-2$ attached to $\Delta x$. The values of these prefactors will ultimately fix where the summation ends.
+
+Adding all the $I_i$ terms together, we can rewrite the summation as:
+$$ I(a,b,N) \sim \frac{\Delta x}{3} \left[ f(a) + f(b) + \sum_n 4 f[a+(2n-1)\Delta x] + 2f[a+2n\Delta x] \right] $$
+where the prefactor $2n+1$ is always odd, and $2n$ is always even. However, the stopping point of the summation over n depends whether $n$ is even or odd. We can make this dependence explicit and write the summation in the form of Newman's equation:
+$$ I(a,b,N) = \frac{\Delta x}{3} \left[ f(a) + f(b) + \sum_{n,\text{ odd}}^{N-1} 4 f[a+n\Delta x] + \sum_{n,\text{ even}}^{N-2} 2f[a+n\Delta x] \right] $$
+
+	
+	
+	
+\end{document}
